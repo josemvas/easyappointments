@@ -4,34 +4,12 @@
 
 <div class="container-fluid backend-page" id="calendar-page">
     <div class="row" id="calendar-toolbar">
-        <div id="calendar-filter" class="col-md-4">
-            <div class="calendar-filter-items">
-                <select id="select-filter-item" class="form-control col"
-                        data-tippy-content="<?= lang('select_filter_item_hint') ?>">
-                </select>
-            </div>
-        </div>
 
-        <div id="calendar-actions" class="col-md-8">
-            <?php if ((session('role_slug') == DB_SLUG_ADMIN || session('role_slug') == DB_SLUG_PROVIDER)
-                && config('google_sync_feature') == TRUE): ?>
-                <button id="google-sync" class="btn btn-primary"
-                        data-tippy-content="<?= lang('trigger_google_sync_hint') ?>">
-                    <i class="fas fa-sync-alt me-2"></i>
-                    <span><?= lang('synchronize') ?></span>
-                </button>
-
-                <button id="enable-sync" class="btn btn-light" data-bs-toggle="button"
-                        data-tippy-content="<?= lang('enable_appointment_sync_hint') ?>">
-                    <i class="fas fa-calendar-alt me-2"></i>
-                    <span><?= lang('enable_sync') ?></span>
-                </button>
-            <?php endif ?>
-
+        <div id="calendar-view" class="col-md-8">
             <?php if (can('add', PRIV_APPOINTMENTS)): ?>
                 <div class="dropdown d-sm-inline-block">
                     <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-plus-square"></i>
+                        <i class="fas fa-plus"></i>
                     </button>
                     <ul class="dropdown-menu">
                         <li>
@@ -52,26 +30,50 @@
                     </ul>
                 </div>
             <?php endif ?>
-
+            <div class="dropdown d-sm-inline-block">
+                <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?= site_url('calendar?view=list') ?>">
+                        <?= lang('list') ?>
+                    </a>
+                    <a class="dropdown-item" href="<?= site_url('calendar?view=timegrid') ?>">
+                        <?= lang('table') ?>
+                    </a>
+                    <a class="dropdown-item" href="<?= site_url('calendar?view=default') ?>">
+                        <?= lang('calendar') ?>
+                    </a>
+                </div>
+            </div>
             <button id="reload-appointments" class="btn btn-light"
                     data-tippy-content="<?= lang('reload_appointments_hint') ?>">
                 <i class="fas fa-sync-alt"></i>
             </button>
-
-            <?php if (vars('calendar_view') === 'default'): ?>
-                <a class="btn btn-light mb-0" href="<?= site_url('calendar?view=table') ?>"
-                   data-tippy-content="<?= lang('table') ?>">
-                    <i class="fas fa-table"></i>
-                </a>
-            <?php endif ?>
-
-            <?php if (vars('calendar_view') === 'table'): ?>
-                <a class="btn btn-light mb-0" href="<?= site_url('calendar?view=default') ?>"
-                   data-tippy-content="<?= lang('default') ?>">
-                    <i class="fas fa-calendar-alt"></i>
-                </a>
-            <?php endif ?>
         </div>
+
+        <div id="calendar-date" class="col-md-8">
+	    <button id="previous-day" class="btn btn-light"
+                    data-tippy-content="<?= lang('previous day') ?>">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+	    <input id="select-date" type="text" class="form-control d-inline-block select-date">
+	    <button id="next-day" class="btn btn-light"
+		    data-tippy-content="<?= lang('next day') ?>">
+		<i class="fas fa-chevron-right"></i>
+            </button>
+	    <button id="today" class="btn btn-light"><?= lang('today') ?>
+            </button>
+        </div>
+
+        <div id="calendar-filter" class="col-md-4">
+            <div class="calendar-filter-items">
+                <select id="select-filter-item" class="form-control col"
+                        data-tippy-content="<?= lang('select_filter_item_hint') ?>">
+                </select>
+            </div>
+        </div>
+
     </div>
 
     <div id="calendar">

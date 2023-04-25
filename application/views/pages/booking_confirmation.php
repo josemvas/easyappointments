@@ -14,9 +14,6 @@
     </p>
 
     <p class="mb-5 text-muted">
-        <small>
-            <?= lang('check_spam_folder') ?>
-        </small>
     </p>
 
     <a href="<?= site_url() ?>" class="btn btn-primary btn-large">

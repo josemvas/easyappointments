@@ -412,7 +412,7 @@ App.Pages.Customers = (function () {
      * @return {String} Returns the record HTML code.
      */
     function getFilterHtml(customer) {
-        const name = (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]');
+        const name = (customer.first_name || '[No Name]') + ' ' + (customer.last_name || '');
 
         let info = customer.email || '[No Email]';
 

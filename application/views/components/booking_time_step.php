@@ -18,7 +18,7 @@
 
             <div class="col-12 col-md-6">
                 <div id="select-time">
-                    <div class="mb-3">
+                    <div class="mb-3" style="display:none;">
                         <label for="select-timezone" class="form-label">
                             <?= lang('timezone') ?>
                         </label>

@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="<?= config('language_code') ?>">
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="theme-color" content="#35A768">
+    <meta name="theme-color" content="<?= adjustBrightness(setting('company_color'), -0.4) ?>">
     <meta name="google" content="notranslate">
 
     <meta property="og:title" content="<?= lang('page_title') . ' ' . vars('company_name') ?> | Easy!Appointments" />
@@ -15,7 +15,7 @@
 
     <?php slot('meta') ?>
 
-    <title><?= lang('page_title') . ' ' . vars('company_name') ?> | Easy!Appointments</title>
+    <title><?= lang('page_title') . ' ' . vars('company_name') ?></title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
@@ -41,7 +41,7 @@
 
             <?php slot('content') ?>
 
-            <?php component('booking_footer', ['display_login_button' => vars('display_login_button')]) ?>
+            <?php /*component('booking_footer', ['display_login_button' => vars('display_login_button')])*/ ?>
 
         </div>
     </div>
@@ -66,7 +66,6 @@
 <script src="<?= asset_url('assets/vendor/moment/moment.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/flatpickr/flatpickr.min.js') ?>"></script>
 

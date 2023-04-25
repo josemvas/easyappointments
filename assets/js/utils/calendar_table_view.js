@@ -27,11 +27,11 @@ App.Utils.CalendarTableView = (function () {
     const $selectProvider = $('#select-provider');
     const $appointmentsModal = $('#appointments-modal');
     const $unavailabilitiesModal = $('#unavailabilities-modal');
+    const $selectDate = $('#select-date');
     const $header = $('#header');
     const $footer = $('#footer');
     let $filterProvider;
     let $filterService;
-    let $selectDate;
     let $popoverTarget;
 
     const moment = window.moment;
@@ -41,7 +41,7 @@ App.Utils.CalendarTableView = (function () {
      * Add the utility event listeners.
      */
     function addEventListeners() {
-        $calendar.on('click', '.calendar-header .btn.previous', () => {
+        $calendarToolbar.on('click', '#previous-day', () => {
             const dayInterval = $selectFilterItem.val();
             const currentDate = $selectDate[0]._flatpickr.selectedDates[0];
             const startDate = moment(currentDate).subtract(1, 'days');
@@ -50,10 +50,18 @@ App.Utils.CalendarTableView = (function () {
             createView(startDate.toDate(), endDate.toDate());
         });
 
-        $calendar.on('click', '.calendar-header .btn.next', () => {
+        $calendarToolbar.on('click', '#next-day', () => {
             const dayInterval = $selectFilterItem.val();
             const currentDate = $selectDate[0]._flatpickr.selectedDates[0];
             const startDate = moment(currentDate).add(1, 'days');
+            const endDate = startDate.clone().add(dayInterval - 1, 'days');
+            $selectDate[0]._flatpickr.setDate(startDate.toDate());
+            createView(startDate.toDate(), endDate.toDate());
+        });
+
+        $calendarToolbar.on('click', '#today', () => {
+            const dayInterval = $selectFilterItem.val();
+            const startDate = moment()
             const endDate = startDate.clone().add(dayInterval - 1, 'days');
             $selectDate[0]._flatpickr.setDate(startDate.toDate());
             createView(startDate.toDate(), endDate.toDate());
@@ -279,7 +287,6 @@ App.Utils.CalendarTableView = (function () {
                 const providerId = lastFocusedEventData.extendedProps.data.id;
 
                 App.Http.Calendar.deleteWorkingPlanException(date, providerId).done(() => {
-                    $('#message-box').dialog('close');
 
                     const workingPlanExceptions = JSON.parse(
                         lastFocusedEventData.extendedProps.data.settings.working_plan_exceptions
@@ -320,7 +327,7 @@ App.Utils.CalendarTableView = (function () {
 
                 App.Utils.Message.show(
                     lang('delete_appointment_title'),
-                    lang('write_appointment_removal_reason'),
+                    lang('delete_record_prompt'),
                     buttons
                 );
 
@@ -354,34 +361,13 @@ App.Utils.CalendarTableView = (function () {
             .append(new Option(`3 ${lang('days')}`, '3'));
 
         const $calendarHeader = $('<div/>', {
-            'class': 'calendar-header'
+            'class': 'calendar-header',
+            'style': 'display:none'
         }).appendTo('#calendar');
 
-        $('<button/>', {
-            'class': 'btn btn-xs btn-outline-secondary previous me-2',
-            'html': [
-                $('<span/>', {
-                    'class': 'fas fa-chevron-left'
-                })
-            ]
-        }).appendTo($calendarHeader);
+        $('#calendar-toolbar input').val(App.Utils.Date.format(new Date(), vars('date_format'), vars('time_format'), false));
 
-        $selectDate = $('<input/>', {
-            'type': 'text',
-            'class': 'form-control d-inline-block select-date me-2',
-            'value': App.Utils.Date.format(new Date(), vars('date_format'), vars('time_format'), false)
-        }).appendTo($calendarHeader);
-
-        $('<button/>', {
-            'class': 'btn btn-xs btn-outline-secondary next',
-            'html': [
-                $('<span/>', {
-                    'class': 'fas fa-chevron-right'
-                })
-            ]
-        }).appendTo($calendarHeader);
-
-        App.Utils.UI.initializeDatepicker($calendarHeader.find('.select-date'), {
+        App.Utils.UI.initializeDatepicker($calendarToolbar.find('.select-date'), {
             onChange(selectedDates) {
                 const startDate = selectedDates[0];
                 const endDate = moment(startDate).add(parseInt($selectFilterItem.val()) - 1, 'days').toDate();
@@ -393,7 +379,7 @@ App.Utils.CalendarTableView = (function () {
             (provider) =>
                 vars('role_slug') === App.Layouts.Backend.DB_SLUG_ADMIN ||
                 (vars('role_slug') === App.Layouts.Backend.DB_SLUG_SECRETARY &&
-                    vars('secretary_providers').indexOf(provider.id) !== -1) ||
+                    vars('secretary_providers').indexOf(Number(provider.id)) !== -1) ||
                 (vars('role_slug') === App.Layouts.Backend.DB_SLUG_PROVIDER &&
                     Number(provider.id) === Number(vars('user_id')))
         );
@@ -514,7 +500,7 @@ App.Utils.CalendarTableView = (function () {
                 $providerColumn
                     .find('.calendar-wrapper')
                     .data('fullCalendar')
-                    .changeView(providerView[providerId] || 'timeGridDay');
+                    .changeView(providerView[providerId] || initial_calendar_view);
             });
         });
     }
@@ -535,11 +521,6 @@ App.Utils.CalendarTableView = (function () {
 
         $dateColumn.data('date', date.getTime());
 
-        $('<h5/>', {
-            'class': 'date-column-title',
-            'text': App.Utils.Date.format(date, vars('date_format'), vars('time_format'))
-        }).appendTo($dateColumn);
-
         const filterProviderIds = $filterProvider.val();
         const filterServiceIds = $filterService.val();
 
@@ -556,12 +537,12 @@ App.Utils.CalendarTableView = (function () {
                 (!filterProviderIds.length && !filterServiceIds.length) ||
                 (filterProviderIds.length &&
                     !filterServiceIds.length &&
-                    filterProviderIds.indexOf(provider.id) !== -1) ||
+                    filterProviderIds.indexOf(Number(provider.id)) !== -1) ||
                 (!filterProviderIds.length && filterServiceIds.length && servedServiceIds.length) ||
                 (filterProviderIds.length &&
                     filterServiceIds.length &&
                     servedServiceIds.length &&
-                    filterProviderIds.indexOf(provider.id) !== -1)
+                    filterProviderIds.indexOf(Number(provider.id)) !== -1)
             );
         });
 
@@ -576,7 +557,7 @@ App.Utils.CalendarTableView = (function () {
         if (vars('role_slug') === 'secretary') {
             providers = [];
             vars('available_providers').forEach((provider) => {
-                if (vars('secretary_providers').indexOf(provider.id) > -1) {
+                if (vars('secretary_providers').indexOf(Number(provider.id)) > -1) {
                     providers.push(provider);
                 }
             });
@@ -674,12 +655,18 @@ App.Utils.CalendarTableView = (function () {
 
         const firstWeekday = vars('first_weekday');
         const firstWeekdayNumber = App.Utils.Date.getWeekdayId(firstWeekday);
+        const workingPlan = JSON.parse(provider.settings.working_plan);
 
         const fullCalendar = new FullCalendar.Calendar($wrapper[0], {
             locale: vars('language_code'),
-            initialView: 'timeGridDay',
+            initialView: initial_calendar_view,
             nowIndicator: true,
-            height: getCalendarHeight(),
+            height: 'auto',
+            locale: 'es',
+            selectLongPressDelay: 200,
+            eventLongPressDelay: 1000,
+            slotMinTime: App.Utils.Date.minStartTime(workingPlan),
+            slotMaxTime: App.Utils.Date.maxEndTime(workingPlan),
             editable: true,
             firstDay: firstWeekdayNumber,
             slotDuration: '00:15:00',
@@ -690,16 +677,12 @@ App.Utils.CalendarTableView = (function () {
             eventTextColor: '#333',
             eventColor: '#7cbae8',
             slotLabelFormat: slotTimeFormat,
+            allDaySlot: false,
             allDayContent: lang('all_day'),
-            dayHeaderFormat: columnFormat,
+            dayHeaderFormat: { weekday: 'long', month: 'long', day: 'numeric', omitCommas: true },
             selectable: true,
-            selectHelper: true,
             themeSystem: 'bootstrap5',
-            headerToolbar: {
-                left: 'listDay,timeGridDay',
-                center: '',
-                right: ''
-            },
+            headerToolbar: false,
             buttonText: {
                 today: lang('today'),
                 day: lang('day'),
@@ -720,8 +703,9 @@ App.Utils.CalendarTableView = (function () {
 
         fullCalendar.gotoDate(goToDate);
 
-        $('<h6/>', {
-            'text': provider.first_name + ' ' + provider.last_name
+        $('<h4/>', {
+            'text': provider.first_name + ' ' + provider.last_name,
+            'style': 'text-align: center;'
         }).prependTo($providerColumn);
     }
 
@@ -762,8 +746,8 @@ App.Utils.CalendarTableView = (function () {
         if (workingPlan[selDayName] === null) {
             const nonWorkingDay = {
                 title: lang('not_working'),
-                start: start,
-                end: end,
+                start: start.toDate(),
+                end: end.toDate(),
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
@@ -1333,6 +1317,7 @@ App.Utils.CalendarTableView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
+			'style' : 'user-select: none',
                         'text': lang('email')
                     }),
                     App.Utils.CalendarEventPopover.renderMailIcon(info.event.extendedProps.data.customer.email),

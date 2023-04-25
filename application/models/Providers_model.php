@@ -96,9 +96,7 @@ class Providers_model extends EA_Model {
         // Make sure all required fields are provided. 
         if (
             empty($provider['first_name'])
-            || empty($provider['last_name'])
             || empty($provider['email'])
-            || empty($provider['phone_number'])
         )
         {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($provider, TRUE));

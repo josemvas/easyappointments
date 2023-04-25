@@ -170,7 +170,7 @@ class Booking extends EA_Controller {
 
             // Make sure the appointment can still be rescheduled.
 
-            $start_datetime = strtotime($results[0]['start_datetime']);
+            $start_datetime = strtotime($results[0]['start_datetime'] . 'America/Mexico_City');
 
             $limit = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
 

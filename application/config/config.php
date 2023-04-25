@@ -42,7 +42,7 @@ $config['base_url'] = trim($protocol . $domain . $request_uri, '/');
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------

@@ -189,10 +189,38 @@ window.App.Utils.Date = (function () {
         return result;
     }
 
+    function minStartTime(workingPlan) {
+        let minStart = moment('23:59', 'HH:mm');
+        for (let day in workingPlan) {
+            if (workingPlan[day] !== null) {
+                let start = moment(workingPlan[day].start, 'HH:mm');
+                if (start.isBefore(minStart)) {
+                    minStart = start;
+                }
+            }
+        }
+        return minStart.format('HH:mm:ss');
+    }
+
+    function maxEndTime(workingPlan) {
+        let maxEnd = moment('00:00', 'HH:mm');
+        for (let day in workingPlan) {
+            if (workingPlan[day] !== null) {
+                let end = moment(workingPlan[day].end, 'HH:mm');
+                if (end.isAfter(maxEnd)) {
+                    maxEnd = end;
+                }
+            }
+        }
+        return maxEnd.format('HH:mm:ss');
+    }
+
     return {
         format,
         getWeekdayId,
         sortWeekDictionary,
-        getWeekdayName
+        getWeekdayName,
+        minStartTime,
+        maxEndTime
     };
 })();

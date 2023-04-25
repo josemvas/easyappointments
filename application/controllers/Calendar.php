@@ -115,7 +115,7 @@ class Calendar extends EA_Controller {
 
         $available_services = $this->services_model->get_available_services();
 
-        $calendar_view = request('view', $user['settings']['calendar_view']);
+        $calendar_view = request('view', 'timegrid');
 
         $appointment_status_options = setting('appointment_status_options');
 

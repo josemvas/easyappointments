@@ -75,7 +75,7 @@
                                 <span class="text-danger">*</span>
                             <?php endif ?>
                         </label>
-                        <input type="text" id="phone-number" maxlength="60"
+                        <input type="text" id="phone-number" maxlength="10" placeholder="10 dígitos"
                                class="<?= $require_phone_number ? 'required' : '' ?> form-control"/>
                     </div>
                 <?php endif ?>

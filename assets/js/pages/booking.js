@@ -120,7 +120,7 @@ App.Pages.Booking = (function () {
 
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
-        $selectTimezone.val(isTimezoneSupported ? browserTimezone : 'UTC');
+        $selectTimezone.val('America/Mexico_City');
 
         // Bind the event handlers (might not be necessary every time we use this class).
         addEventListeners();
@@ -618,10 +618,10 @@ App.Pages.Booking = (function () {
                             'text': lang('service') + ': ' + $selectService.find('option:selected').text()
                         }),
                         $('<br/>'),
-                        $('<span/>', {
-                            'text': lang('provider') + ': ' + $selectProvider.find('option:selected').text()
-                        }),
-                        $('<br/>'),
+//                        $('<span/>', {
+//                            'text': lang('provider') + ': ' + $selectProvider.find('option:selected').text()
+//                        }),
+//                        $('<br/>'),
                         $('<span/>', {
                             'text':
                                 lang('start') +
@@ -631,10 +631,10 @@ App.Pages.Booking = (function () {
                                 $availableHours.find('.selected-hour').text()
                         }),
                         $('<br/>'),
-                        $('<span/>', {
-                            'text': lang('timezone') + ': ' + $selectTimezone.find('option:selected').text()
-                        }),
-                        $('<br/>'),
+//                        $('<span/>', {
+//                            'text': lang('timezone') + ': ' + $selectTimezone.find('option:selected').text()
+//                        }),
+//                        $('<br/>'),
                         $('<span/>', {
                             'text': lang('price') + ': ' + servicePrice + ' ' + serviceCurrency,
                             'prop': {
@@ -838,25 +838,24 @@ App.Pages.Booking = (function () {
             }).appendTo($serviceDescription);
         }
 
-        if (service.duration || Number(service.price) > 0 || service.location) {
-            $('<br/>').appendTo($serviceDescription);
-        }
-
         if (service.duration) {
+            $('<br/>').appendTo($serviceDescription);
             $('<span/>', {
-                'text': '[' + lang('duration') + ' ' + service.duration + ' ' + lang('minutes') + ']'
+                'text': lang('duration') + ': ' + service.duration + ' ' + lang('minutes')
             }).appendTo($serviceDescription);
         }
 
         if (Number(service.price) > 0) {
+            $('<br/>').appendTo($serviceDescription);
             $('<span/>', {
-                'text': '[' + lang('price') + ' ' + service.price + ' ' + service.currency + ']'
+                'text': lang('price') + ': ' + service.price + ' ' + service.currency
             }).appendTo($serviceDescription);
         }
 
         if (service.location) {
+            $('<br/>').appendTo($serviceDescription);
             $('<span/>', {
-                'text': '[' + lang('location') + ' ' + service.location + ']'
+                'text': lang('location') + ': ' + service.location
             }).appendTo($serviceDescription);
         }
     }

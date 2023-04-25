@@ -9,6 +9,8 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+var initial_calendar_view
+
 /**
  * Calendar page.
  *
@@ -141,8 +143,12 @@ App.Pages.Calendar = (function () {
      */
     function initialize() {
         // Load and initialize the calendar view.
-        if (vars('calendar_view') === 'table') {
+        if (vars('calendar_view') === 'list') {
             App.Utils.CalendarTableView.initialize();
+            initial_calendar_view = 'listDay';
+	} else if (vars('calendar_view') === 'timegrid') {
+            App.Utils.CalendarTableView.initialize();
+            initial_calendar_view = 'timeGridDay';
         } else {
             App.Utils.CalendarDefaultView.initialize();
         }

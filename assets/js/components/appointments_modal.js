@@ -217,7 +217,7 @@ App.Components.AppointmentsModal = (function () {
                 vars('customers').forEach((customer) => {
                     $('<div/>', {
                         'data-id': customer.id,
-                        'text': (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                        'text': (customer.first_name || '[No Name]') + ' ' + (customer.last_name || '')
                     }).appendTo($existingCustomersList);
                 });
             } else {
@@ -278,7 +278,7 @@ App.Components.AppointmentsModal = (function () {
                         response.forEach((customer) => {
                             $('<div/>', {
                                 'data-id': customer.id,
-                                'text': (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                                'text': (customer.first_name || '[No Name]') + ' ' + (customer.last_name || '')
                             }).appendTo($existingCustomersList);
 
                             // Verify if this customer is on the old customer list.
@@ -309,7 +309,7 @@ App.Components.AppointmentsModal = (function () {
                             ) {
                                 $('<div/>', {
                                     'data-id': customer.id,
-                                    'text': (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                                    'text': (customer.first_name || '[No Name]') + ' ' + (customer.last_name || '')
                                 }).appendTo($existingCustomersList);
                             }
                         });

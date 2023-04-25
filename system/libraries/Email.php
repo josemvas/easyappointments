@@ -2162,34 +2162,17 @@ class CI_Email {
 			return FALSE;
 		}
 
-		$this->_send_data('AUTH LOGIN');
+		$this->_send_data('AUTH PLAIN '.base64_encode("\000".$this->smtp_user."\000".$this->smtp_pass));
 		$reply = $this->_get_smtp_data();
 
-		if (strpos($reply, '503') === 0)	// Already authenticated
+		if (strpos($reply, '503') === 0)  // Already authenticated
 		{
-			return TRUE;
+		  return TRUE;
 		}
-		elseif (strpos($reply, '334') !== 0)
-		{
-			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
-			return FALSE;
-		}
-
-		$this->_send_data(base64_encode($this->smtp_user));
-		$reply = $this->_get_smtp_data();
-
-		if (strpos($reply, '334') !== 0)
-		{
-			$this->_set_error_message('lang:email_smtp_auth_un', $reply);
-			return FALSE;
-		}
-
-		$this->_send_data(base64_encode($this->smtp_pass));
-		$reply = $this->_get_smtp_data();
 
 		if (strpos($reply, '235') !== 0)
 		{
-			$this->_set_error_message('lang:email_smtp_auth_pw', $reply);
+			$this->_set_error_message('lang:email_failed_smtp_login', $reply);
 			return FALSE;
 		}
 

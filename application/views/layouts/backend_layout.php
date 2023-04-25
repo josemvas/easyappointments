@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="theme-color" content="#35A768">
+    <meta name="theme-color" content="<?= adjustBrightness(setting('company_color'), -0.4) ?>">
     <meta name="google" content="notranslate">
 
     <?php slot('meta') ?>
 
-    <title><?= vars('page_title') ?? lang('backend_section') ?> | Easy!Appointments</title>
+    <title><?= vars('page_title') ?? lang('backend_section') ?></title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
@@ -36,7 +36,7 @@
     
 </main>
 
-<?php component('backend_footer', ['user_display_name' => vars('user_display_name')]) ?>
+<?php /*component('backend_footer', ['user_display_name' => vars('user_display_name')])*/ ?>
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
@@ -52,6 +52,7 @@
 
 <script src="<?= asset_url('assets/js/app.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/time.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/file.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/http.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>

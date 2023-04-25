@@ -8,7 +8,7 @@
 
 <div id="wizard-frame-1" class="wizard-frame" style="visibility: hidden;">
     <div class="frame-container">
-        <h2 class="frame-title"><?= lang('service_and_provider') ?></h2>
+        <h2 class="frame-title"><?= lang('select_service') ?></h2>
 
         <div class="row frame-content">
             <div class="col">
@@ -87,7 +87,7 @@
                     </select>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3" style="display:none;">
                     <label for="select-provider">
                         <strong><?= lang('provider') ?></strong>
                     </label>
@@ -101,7 +101,7 @@
     </div>
 
     <div class="command-buttons">
-        <span>&nbsp;</span>
+        <span></span>
 
         <button type="button" id="button-next-1" class="btn button-next btn-dark"
                 data-step_index="1">

@@ -7,24 +7,18 @@
 ?>
 
 <div id="header">
-    <div id="company-name">
+    <div id="company">
         <img src="<?= vars('company_logo') ?: base_url('assets/img/logo.png') ?>" alt="logo" id="company-logo">
 
-        <span>
+        <span id="company-name">
             <?= e($company_name) ?>
         </span>
-
-        <div class="d-flex justify-content-center justify-content-md-start">
-            <span class="display-selected-service me-1 pe-1 border-end invisible">
-                <?= lang('service') ?>
-            </span>
-            <span class="display-selected-provider invisible">
-                <?= lang('provider') ?>
-            </span>
-        </div>
     </div>
 
     <div id="steps">
+        <div id="service-name">
+            <span class="display-selected-service"></span>
+        </div>
         <div id="step-1" class="book-step active-step"
              data-tippy-content="<?= lang('service_and_provider') ?>">
             <strong>1</strong>

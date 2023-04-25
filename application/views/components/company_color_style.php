@@ -179,5 +179,19 @@
             background: <?= $company_color ?> !important;
             border-color: <?= $company_color ?> !important;
         }
+
+        #calendar-toolbar {
+            background-color: <?= $company_color ?> !important;
+        }
+
+        .button-next {
+            background-color: <?= adjustBrightness($company_color, -0.2) ?>; !important;
+            border-color: <?= adjustBrightness($company_color, -0.2) ?>; !important;
+        }
+
+        .button-next:hover {
+            background-color: <?= adjustBrightness($company_color, 0.2) ?>; !important;
+            border-color: <?= adjustBrightness($company_color, 0.2) ?>; !important;
+        }
     </style>
 <?php endif ?>

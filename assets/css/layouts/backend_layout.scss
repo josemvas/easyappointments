@@ -304,7 +304,7 @@ body legend {
     margin-bottom: 15px;
     color: white;
     background: #353535;
-    padding: 15px 0;
+    padding: 0 8px;
 }
 
 #calendar-page #calendar-filter .form-group {
@@ -360,6 +360,7 @@ body legend {
     text-transform: none;
     cursor: default; 
     color: var(--bs-body-color) !important; 
+    font-size: initial;
 }
 
 #calendar .calendar-header .select2-container {
@@ -371,7 +372,8 @@ body legend {
 }
 
 #calendar .provider-column {
-    width: 100% !important;
+    width: 400px !important;
+    margin-bottom: 1em;
 }
 
 #calendar-page #calendar .fc-toolbar .fc-left,
@@ -1000,4 +1002,55 @@ body .form-horizontal .controls {
 
 .status-list-item {
     max-width: 400px;
+}
+
+/* CUSTOM STYLES
+   -------------------------------------------------------------------- */
+
+#calendar .fc-list-day-text {
+    color: dimgray;
+    font-size: initial;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+#calendar .fc-timegrid-col-events {
+    margin: 0;
+}
+
+#calendar-toolbar #calendar-view {
+    width: auto;
+}
+
+#calendar-toolbar #calendar-actions {
+    width: auto;
+}
+
+#calendar-toolbar #calendar-date {
+    width: auto;
+}
+
+#calendar-toolbar .btn {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+    #calendar-toolbar #calendar-filter {
+        width: 240px;
+    }
+
+    #calendar-toolbar .btn {
+        width: auto;
+    }
+
+    #calendar-toolbar .select-date {
+        width: 120px;
+    }
+
+    #calendar-toolbar .flatpickr-wrapper {
+        width: auto;
+	vertical-align: top;
+    }
+
 }

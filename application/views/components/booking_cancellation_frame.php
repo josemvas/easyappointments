@@ -19,7 +19,7 @@
 
                 <input id="hidden-cancellation-reason" name="cancellation_reason" type="hidden">
 
-                <button id="cancel-appointment" class="btn btn-warning btn-sm">
+                <button id="cancel-appointment" class="btn btn-danger btn-sm">
                     <i class="fas fa-trash me-2"></i>
                     <?= lang('cancel') ?>
                 </button>

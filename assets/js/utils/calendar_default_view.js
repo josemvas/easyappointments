@@ -259,7 +259,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                 App.Utils.Message.show(
                     lang('delete_appointment_title'),
-                    lang('write_appointment_removal_reason'),
+                    lang('delete_record_prompt'),
                     buttons
                 );
 
@@ -873,7 +873,7 @@ App.Utils.CalendarDefaultView = (function () {
      * @see getCalendarHeight()
      */
     function onWindowResize() {
-        fullCalendar.setOption('height', getCalendarHeight());
+        fullCalendar.setOption('height', 'auto');
     }
 
     /**
@@ -1442,13 +1442,19 @@ App.Utils.CalendarDefaultView = (function () {
 
         const firstWeekday = vars('first_weekday');
         const firstWeekdayNumber = App.Utils.Date.getWeekdayId(firstWeekday);
+        const workingPlan = JSON.parse(vars('company_working_plan'));
 
         // Initialize page calendar
         fullCalendar = new FullCalendar.Calendar($calendar[0], {
             initialView,
             locale: vars('language_code'),
             nowIndicator: true,
-            height: getCalendarHeight(),
+            height: 'auto',
+            locale: 'es',
+            selectLongPressDelay: 200,
+            eventLongPressDelay: 1000,
+            slotMinTime: App.Utils.Date.minStartTime(workingPlan),
+            slotMaxTime: App.Utils.Date.maxEndTime(workingPlan),
             editable: true,
             firstDay: firstWeekdayNumber,
             slotDuration: '00:15:00',
@@ -1459,6 +1465,7 @@ App.Utils.CalendarDefaultView = (function () {
             eventTextColor: '#333',
             eventColor: '#7cbae8',
             slotLabelFormat: slotTimeFormat,
+            allDaySlot: false,
             allDayContent: lang('all_day'),
             selectable: true,
             selectMirror: true,
@@ -1466,7 +1473,7 @@ App.Utils.CalendarDefaultView = (function () {
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'timeGridDay,timeGridWeek,dayGridMonth'
+                right: 'timeGridWeek,dayGridMonth'
             },
             buttonText: {
                 today: lang('today'),
